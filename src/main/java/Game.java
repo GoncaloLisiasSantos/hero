@@ -4,19 +4,17 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.input.KeyStroke;
 
 import javax.swing.*;
 import java.io.IOException;
 
 public class Game {
-    KeyStroke key = screen.readInput();
     private Screen screen;
     private int x = 10;
     private int y = 10;
 
-    private void processKey(KeyStroke key) {
-        System.out.println(key);
-    }
+
 
 
 
@@ -39,13 +37,31 @@ public class Game {
         screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
         screen.refresh();
     }
+    
 
-    private void processKey(KeyStroke key){
-        System.out.println(key);
-    }
 
     public void run() throws IOException{
         draw();
+        KeyStroke key =  screen.readInput();
+    }
+
+    private void processKey(KeyStroke key)throws IOException{
+        if (key.getKeyType()==KeyType.ArrowUp){
+            y-=1;
+        }
+        if (key.getKeyType()==KeyType.ArrowDown){
+            y+=1;
+        }
+        if (key.getKeyType()==KeyType.ArrowLeft){
+            x-=1;
+        }
+        if (key.getKeyType()==KeyType.ArrowRight){
+            x+=1;
+        }
+        if(key.getKeyType()==KeyType.Character && key.getCharacter() == 'q'){
+            screen.close();
+        }
+        System.out.println(key);
     }
 
 
