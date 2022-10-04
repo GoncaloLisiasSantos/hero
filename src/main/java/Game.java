@@ -11,8 +11,7 @@ import java.io.IOException;
 
 public class Game {
     private Screen screen;
-    private int x = 10;
-    private int y = 10;
+    private Hero hero;
 
 
 
@@ -21,6 +20,7 @@ public class Game {
 
     public Game() {
         try {
+            hero = new Hero(10, 10);
             Terminal terminal = new DefaultTerminalFactory().createTerminal();
             screen = new TerminalScreen(terminal);
             screen.setCursorPosition(null); // we don't need a cursor
@@ -34,34 +34,40 @@ public class Game {
 
     private void draw() throws IOException {
         screen.clear();
-        screen.setCharacter(x, y, TextCharacter.fromCharacter('X')[0]);
+        hero.draw(screen);
         screen.refresh();
     }
     
 
 
     public void run() throws IOException{
-        draw();
-        KeyStroke key =  screen.readInput();
+        while(true) {
+            draw();
+            KeyStroke key = screen.readInput();
+            if (key.getKeyType() == KeyType.Character && key.getCharacter() == 'q'){
+                screen.close();
+            }
+            if (key.getKeyType()==KeyType.EOF){break;}
+            processKey(key);
+        }
     }
 
     private void processKey(KeyStroke key)throws IOException{
         if (key.getKeyType()==KeyType.ArrowUp){
-            y-=1;
+            hero.moveUp();
         }
         if (key.getKeyType()==KeyType.ArrowDown){
-            y+=1;
+            hero.moveDown();
         }
         if (key.getKeyType()==KeyType.ArrowLeft){
-            x-=1;
+            hero.moveLeft();
         }
         if (key.getKeyType()==KeyType.ArrowRight){
-            x+=1;
+            hero.moveRight();
         }
-        if(key.getKeyType()==KeyType.Character && key.getCharacter() == 'q'){
-            screen.close();
-        }
+
         System.out.println(key);
+
     }
 
 
