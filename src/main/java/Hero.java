@@ -5,11 +5,12 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.screen.Screen;
 
-public class Hero {
+public class Hero extends Element {
 
     private Position position;
 
     public Hero(int hx,int hy){
+        super(hx,hy);
         position=new Position(hx,hy);
 
     }
@@ -45,4 +46,6 @@ public class Hero {
         graphics.enableModifiers(SGR.BOLD);
         graphics.putString(new TerminalPosition(position.getX(), position.getY()), "LDTS");
     }
+
+
 }
