@@ -1,13 +1,9 @@
 import com.googlecode.lanterna.*;
 import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
 
-import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -17,9 +13,9 @@ public class Arena {
     private final int height;
     private final Hero hero;
 
-    private List<Wall> walls;
+    private final List<Wall> walls;
 
-    private List<Coin> coins;
+    private final List<Coin> coins;
 
 
     public Arena(int width, int height) {
