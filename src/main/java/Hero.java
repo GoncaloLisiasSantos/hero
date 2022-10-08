@@ -42,9 +42,10 @@ public class Hero extends Element {
         return new Position(position.getX() - 1, position.getY());
     }
     public void draw(TextGraphics graphics){
+        //graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
         graphics.setForegroundColor(TextColor.Factory.fromString("#FFFFFF"));
         graphics.enableModifiers(SGR.BOLD);
-        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "LDTS");
+        graphics.putString(new TerminalPosition(position.getX(), position.getY()), "X");
     }
 
 

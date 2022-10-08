@@ -10,6 +10,8 @@ import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+
 public class Arena {
     private final int width;
     private final int height;
@@ -17,12 +19,15 @@ public class Arena {
 
     private List<Wall> walls;
 
+    private List<Coin> coins;
+
 
     public Arena(int width, int height) {
         this.width = width;
         this.height = height;
         this.hero = new Hero(10, 10);
         this.walls = createWalls();
+        this.coins = createCoins();
     }
 
     private List<Wall> createWalls() {
@@ -37,19 +42,30 @@ public class Arena {
         }
         return walls;
     }
+    private List<Coin> createCoins() {
+        Random random = new Random();
+        ArrayList<Coin> coins = new ArrayList<>();
+        for (int i = 0; i < 5; i++)
+            coins.add(new Coin(random.nextInt(width - 2) + 1, random.nextInt(height - 2) + 1));
+        return coins;
+    }
 
-
-
-
+    private void retrieveCoins() {
+        for (Coin coin : coins)
+            if (hero.getPosition().equals(coin.getPosition())) {
+                coins.remove(coin);
+                break;
+            }
+    }
 
     public void draw(TextGraphics graphics) {
-        graphics.setBackgroundColor(TextColor.Factory.fromString("#336699"));
+        graphics.setBackgroundColor(TextColor.Factory.fromString("#000000"));
         graphics.fillRectangle(new TerminalPosition(0, 0), new TerminalSize(width, height), ' ');
         hero.draw(graphics);
         for (Wall wall : walls)
             wall.draw(graphics);
-
-
+        for (Coin coin : coins)
+            coin.draw(graphics);
     }
 
     public void processKey(KeyStroke key) {
@@ -59,9 +75,8 @@ public class Arena {
             case ArrowDown -> moveHero(hero.moveDown());
             case ArrowRight -> moveHero(hero.moveRight());
             case ArrowLeft -> moveHero(hero.moveLeft());
-
-
         }
+        retrieveCoins();
     }
 
     public void moveHero(Position position) {
@@ -77,14 +92,20 @@ public class Arena {
         if (position.getY() < 0) return false;
         if (position.getY() > height - 1) return false;
 
+
         for (Wall wall : walls) {
             if (wall.getPosition().equals(position)) {
                 return false;
             }
 
+
         }
 
     return true;
     }
+
+
+
+
 }
 
